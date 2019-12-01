@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="/static/img/restaurant-marker.png" type="image/gif" sizes="16x16">
-  <title>Decode || {% block title %} put title here {% endblock %}</title>
+  <title>d3Connect || {% block title %} put title here {% endblock %}</title>
 
   <!-- Bootstrap -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -44,9 +44,9 @@
           <span class="icon-bar"></span>
         </button>
         {% if session.get('current_user') %}
-          <a href="/users/{{ session.current_user.user_id }}"><button id="brand-logo"><img src="/static/img/restaurant-marker.png"> Decode</button></a>
+          <a href="/users/{{ session.current_user.user_id }}"><button id="brand-logo"><img src="/static/img/restaurant-marker.png"> d3Connect</button></a>
         {% else %}
-          <a href="/"><button id="brand-logo"><img src="/static/img/restaurant-marker.png"> decode</button></a>
+          <a href="/"><button id="brand-logo"><img src="/static/img/restaurant-marker.png"> d3Connect</button></a>
         {% endif %}
       </div><!-- /.navbar-header -->
 
@@ -107,7 +107,7 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p class="footer-copyright">Decode</p>
+      <p class="footer-copyright">d3Connect</p>
       <!-- <p>Made with <span id="heart">&hearts;</span></p> -->
       <p class="footer-text">
         <a href="https://github.com/#">
