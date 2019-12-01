@@ -341,7 +341,7 @@ def suggest():
         if (key == user_id):
             continue
         suggestions.append(key)
-        if len(suggestions) == 10:
+        if len(suggestions) == 5:
             break
     
 
