@@ -212,6 +212,8 @@ def add_friend():
     user_a_id = session["current_user"]["user_id"]
     user_b_id = request.form.get("user_b_id")
 
+    print('User b id -------------', user_b_id)
+
     # Check connection status between user_a and user_b
     is_friends, is_pending = is_friends_or_pending(user_a_id, user_b_id)
 
@@ -260,8 +262,8 @@ def search_users():
     user_input = request.args.get("q")
 
     # Search user's query in users table of db and return all search results
-    search_results = search(db.session.query(User), user_input).all()
 
+    search_results = search(db.session.query(User), user_input).all()
     return render_template("friends_search_results.html",
                            received_friend_requests=received_friend_requests,
                            sent_friend_requests=sent_friend_requests,
@@ -351,7 +353,7 @@ if __name__ == "__main__":
     db.create_all()
 
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    #DebugToolbarExtension(app)
 
     PORT = int(os.environ.get("PORT", 5000))
     DEBUG = "NO_DEBUG" not in os.environ
