@@ -56,7 +56,7 @@
           <ul class="nav navbar-nav">
             <li><a href="/users/{{ session.current_user.user_id }}">Profile</a></li>
             <li><a href="/friends">Friends <span class="badge">{{ session.current_user.num_total_requests }}</span></a></li>
-            <li><a href="http://localhost:5001">Chat</a></li>
+            <li><a href="http://localhost:5001/{{session.current_user.first_name}}">Chat</a></li>
           </ul>
 
 
