@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}User: {{ user.user_id }}{% endblock %}
+
+{% block content %}
+  <div class="jumbotron top-header" id="user-info" data-userid="{{ user.user_id }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-2">
+          {% if user.user_id == 3 %}
+            <img class="img-circle img-responsive" src="/static/img/profile-stan-marsh.jpg">
+          {% elif user.user_id == 1 %}
+            <img class="img-circle img-responsive" src="/static/img/profile-cartman.jpg">
+          {% elif user.user_id == 4 %}
+            <img class="img-circle img-responsive" src="/static/img/profile-kenny.jpg">
+          {% else %}
+            <img class="img-circle img-responsive" src="/static/img/profile-avatar.png">
+          {% endif %}
+        </div><!-- /.col -->
+        <div class="col-xs-12 col-md-6">
+          <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+          <table class="user-stats">
+            <tr>
+              <th class="stats-label">Friends</th>
+            </tr>
+            <tr>
+              <td class="stats-value">{{ total_friends }}</td>
+            </tr>
+          </table>
+        </div><!-- /.col -->
+        <div class="col-xs-12 col-md-4" id="action-box">
+          {% if session.current_user.user_id != user.user_id %}
+            {% if friends %}
+              <button class="btn btn-primary disabled" id="accepted-btn"><span class="fa fa-users" aria-hidden="true"></span> Friends</button>
+            {% elif pending_request %}
+              <button class="btn btn-primary disabled" id="requested-btn"><span class="fa fa-clock-o" aria-hidden="true"></span> Request Pending</button>
+            {% else %}
+              <form id="add-friend-form" action="/add-friend" method="post">
+                <button type="submit" class="btn btn-primary" id="add-friend-btn"><span class="fa fa-user-plus" aria-hidden="true"></span> Add Friend</button>
+              </form>
+            {% endif %}
+          {% else %}
+          {% endif %}
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </div><!-- /.jumbotron -->
+{% endblock %}
