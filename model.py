@@ -28,6 +28,17 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
+    age = db.Column(db.Integer, nullable=True)
+    gender = db.Column(db.String(1), nullable=True)
+    dob = db.Column(db.Date(), nullable=True)
+    mobile = db.Column(db.String(10), nullable=True)
+    address = db.Column(db.String(100), nullable=True)
+    city = db.Column(db.String(100), nullable=True)
+    placeOfBirth = db.Column(db.String(100), nullable=True)
+    interest = db.Column(db.String(100), nullable=True)
+    occupation = db.Column(db.String(100), nullable=True)
+
+
     # Put name inside TSVectorType definition for it to be fulltext-indexed (searchable)
     search_vector = db.Column(TSVectorType('first_name', 'last_name'))
 

@@ -19,6 +19,7 @@ app.jinja_env.undefined = StrictUndefined
 from raven.contrib.flask import Sentry
 sentry = Sentry(app)
 
+from datetime import datetime
 
 @app.route('/')
 def index():
@@ -147,6 +148,8 @@ def user_profile(user_id):
     user_a_id = session["current_user"]["user_id"]
     user_b_id = user.user_id
 
+    extra_completed = user.age and user.gender
+
     # Check connection status between user_a and user_b
     friends, pending_request = is_friends_or_pending(user_a_id, user_b_id)
 
@@ -154,8 +157,54 @@ def user_profile(user_id):
                            user=user,
                            total_friends=total_friends,
                            friends=friends,
-                           pending_request=pending_request)
+                           pending_request=pending_request,
+                           extra_completed=extra_completed)
 
+
+@app.route("/setting", methods=["GET"])
+def show_setting():
+    return render_template("setting.html")
+
+
+@app.route("/setting", methods=["POST"])
+def setting():
+
+    complete_age = request.form.get("complete_age")
+    complete_gender = request.form.get("complete_gender")
+    # print(session)
+    dob = request.form.get("dob")
+    mobile = request.form.get("mobile")
+    address = request.form.get("address")
+    city = request.form.get("city")
+    placeOfBirth = request.form.get("placeOfBirth")
+    interest = request.form.getlist("interest")
+    occupation = request.form.get("occupation")
+    
+    netInterest = ','.join(interest)
+    # for x in interest:
+    #     netInterest = netInterest + ',' + x
+    
+    user_id = session["current_user"]["user_id"]
+    user = db.session.query(User).filter(User.user_id == user_id).one()
+
+    user.age = complete_age
+    user.gender = complete_gender == 'male' and 'M' or 'F'
+    try:
+        user.dob = datetime.strptime(dob, '%Y-%m-%d')
+    except:
+        user.dob = None
+    user.mobile = mobile
+    user.address = address
+    user.city = city
+    user.placeOfBirth = placeOfBirth
+    user.interest = netInterest
+    user.occupation = occupation
+
+    db.session.commit()
+
+    flash("Details Updated sucessfully", "success")
+
+    return redirect("/users/%s" % user_id)
 
 @app.route("/add-friend", methods=["POST"])
 def add_friend():

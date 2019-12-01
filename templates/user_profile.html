@@ -29,6 +29,9 @@
           </table>
         </div><!-- /.col -->
         <div class="col-xs-12 col-md-4" id="action-box">
+          {% if not extra_completed %}
+            Please complete your profile for better friend suggestions <a href="/setting">here</a>.
+          {% endif %}
           {% if session.current_user.user_id != user.user_id %}
             {% if friends %}
               <button class="btn btn-primary disabled" id="accepted-btn"><span class="fa fa-users" aria-hidden="true"></span> Friends</button>
