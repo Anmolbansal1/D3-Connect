@@ -50,13 +50,7 @@
               {% for friend in friends %}
                 <div class="col-xs-6 col-sm-2" id="user-profile-pic-sm">
                   <a href="users/{{ friend.user_id }}">
-                    {% if friend.user_id == 1 %}
-                      <img class="img-circle img-responsive" src="/static/img/profile-cartman.jpg">
-                    {% elif friend.user_id == 4 %}
-                      <img class="img-circle img-responsive" src="/static/img/profile-kenny.jpg">
-                    {% else %}
-                      <img class="img-circle img-responsive" src="/static/img/profile-avatar.png">
-                    {% endif %}
+                    <img class="img-circle img-responsive" src="/static/img/profile-avatar.png">
                     {{ friend.first_name }} {{ friend.last_name}}
                   </a>
                   <!-- Put Unfriend button on user profile page instead -->
@@ -87,8 +81,8 @@
                     {{ received_friend_request.first_name }} {{ received_friend_request.last_name }}
                   </a>
                   <br><br>
-                  <button type="button" class="btn btn-success" id="accepted-btn">Accept</button>
-                  <button type="button" class="btn btn-danger" id="deleted-btn">Delete</button>
+                  <button type="button" class="btn btn-success" id="accepted-btn" onclick="acceptRequest({{ session.current_user.user_id }}, {{ received_friend_request.user_id }})">Accept</button>
+                  <button type="button" class="btn btn-danger" id="deleted-btn" onclick="rejectRequest({{ session.current_user.user_id }}, {{ received_friend_request.user_id }})">Delete</button>
                 </div><!-- /.col -->
               {% endfor %}
             {% else %}
@@ -149,4 +143,9 @@
 
   </div><!-- /.container -->
 
+{% endblock %}
+
+{% block javascript %}
+  <script src="/static/js/manage-requests.js"></script>
+  <script src="/static/js/suggest.js"></script>
 {% endblock %}

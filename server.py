@@ -248,6 +248,22 @@ def show_friends_and_requests():
                            sent_friend_requests=sent_friend_requests,
                            friends=friends)
 
+@app.route("/friend_request", methods=["POST"])
+def handle_friend_request():
+    target_id = request.form['user_id']
+    user_id = request.form['target_id']
+    status = request.form['status']
+
+    if status == 'accept':
+        conn = db.session.query(Connection).filter(Connection.user_a_id==user_id,Connection.user_b_id==target_id).first()
+        conn.status = "Accepted"
+    else:
+        db.session.query(Connection).filter(Connection.user_a_id==user_id,Connection.user_b_id==target_id).delete()
+    
+    
+    db.session.commit()
+
+    return "Request handled"
 
 @app.route("/friends/search", methods=["GET"])
 def search_users():
@@ -353,7 +369,7 @@ if __name__ == "__main__":
     db.create_all()
 
     # Use the DebugToolbar
-    #DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
 
     PORT = int(os.environ.get("PORT", 5000))
     DEBUG = "NO_DEBUG" not in os.environ
