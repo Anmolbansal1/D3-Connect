@@ -30,7 +30,6 @@ class User(db.Model):
     last_name = db.Column(db.String(100), nullable=False)
     age = db.Column(db.Integer, nullable=True)
     gender = db.Column(db.String(1), nullable=True)
-    dob = db.Column(db.Date(), nullable=True)
     mobile = db.Column(db.String(10), nullable=True)
     address = db.Column(db.String(100), nullable=True)
     city = db.Column(db.String(100), nullable=True)
@@ -81,7 +80,7 @@ def connect_to_db(app, db_uri=None):
     """Connect the database to our Flask app."""
 
     # Configure to use our PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri or 'postgresql:///social'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri or 'postgresql:///breadcrumbs'
     app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)

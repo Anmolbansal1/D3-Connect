@@ -8,6 +8,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Connection
 from model import connect_to_db, db
 from friends import is_friends_or_pending, get_friend_requests, get_friends
+from preds import age_sim, occ_sim, location_sim, interest_sim
 
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy_searchable import search
@@ -19,7 +20,9 @@ app.jinja_env.undefined = StrictUndefined
 from raven.contrib.flask import Sentry
 sentry = Sentry(app)
 
-from datetime import datetime
+from  geopy.geocoders import Nominatim
+from math import radians, degrees, sin, cos, asin, acos, sqrt 
+geolocator = Nominatim()
 
 @app.route('/')
 def index():
@@ -172,7 +175,6 @@ def setting():
     complete_age = request.form.get("complete_age")
     complete_gender = request.form.get("complete_gender")
     # print(session)
-    dob = request.form.get("dob")
     mobile = request.form.get("mobile")
     address = request.form.get("address")
     city = request.form.get("city")
@@ -189,10 +191,7 @@ def setting():
 
     user.age = complete_age
     user.gender = complete_gender == 'male' and 'M' or 'F'
-    try:
-        user.dob = datetime.strptime(dob, '%Y-%m-%d')
-    except:
-        user.dob = None
+
     user.mobile = mobile
     user.address = address
     user.city = city
@@ -268,6 +267,67 @@ def search_users():
                            sent_friend_requests=sent_friend_requests,
                            friends=friends,
                            search_results=search_results)
+
+
+@app.route("/suggest", methods=["POST"])
+def suggest():
+    """Suggest similar users based on columns."""
+
+    user_id = session["current_user"]["user_id"]
+
+    age = request.form.get("age")
+    occupation = request.form.get("occupation")
+    interests = request.form.get("interests")
+    city = request.form.get("city")
+
+    all_users = db.session.query(User).all()
+    # age_sim, occ_sim, location_sim, interest_sim
+    
+    user = db.session.query(User).filter(User.user_id == user_id).one()
+
+    similarities = {}
+    for num, user in range(len(all_users)):
+        similarities[user_id] = 0
+
+    sim = 0
+    for user_test in all_users:
+        if age is not None:
+            sim = age_sim(user_test.age, user.age)
+            similarities[user_test.user_id] += sim
+        
+        if occupation is not None:
+            sim = occ_sim(user_test.occupation, user.occupation)
+            similarities[user_test.user_id] += sim
+        
+        if interests is not None:
+            sim = interest_sim(user_test.interest, user.interest)
+            similarities[user_test.user_id] += sim
+        
+        if city is not None:
+            sim = location_sim(user_test.city, user.city)
+            similarities[user_test.user_id] += sim
+    
+    # similarities filled
+    similarities = sorted(similarities.items(), key = lambda kv:(kv[0], kv[1]))
+
+    # summer sorted
+    suggestions = []
+
+    for key, value in similarities:
+        if (key == user_id):
+            continue
+        suggestions.append(key)
+        if len(suggestions) == 10:
+            break
+    
+
+    # flash("An account already exists with this email address. Please login.", "danger")
+    to_friends = {}
+    for val in suggestions:
+        user = db.session.query(User).filter(User.user_id == val).values('user_id', 'first_name', 'last_name')
+
+
+    return render_template("suggestions.html", users=to_friends)
 
 
 @app.route("/error")
