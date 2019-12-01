@@ -282,12 +282,16 @@ def suggest():
 
     all_users = db.session.query(User).all()
     # age_sim, occ_sim, location_sim, interest_sim
-    
+    print('Currently all users - \n')
+    print(all_users)
     user = db.session.query(User).filter(User.user_id == user_id).one()
 
     similarities = {}
-    for num, user in range(len(all_users)):
-        similarities[user_id] = 0
+    for user in all_users:
+        similarities[user.user_id] = 0.0
+    
+    print('Similaritites - ')
+    print(similarities)
 
     sim = 0
     for user_test in all_users:
@@ -310,10 +314,12 @@ def suggest():
     # similarities filled
     similarities = sorted(similarities.items(), key = lambda kv:(kv[0], kv[1]))
 
+    print(similarities)
     # summer sorted
     suggestions = []
 
     for key, value in similarities:
+        print('Value - ', value)
         if (key == user_id):
             continue
         suggestions.append(key)
@@ -322,10 +328,11 @@ def suggest():
     
 
     # flash("An account already exists with this email address. Please login.", "danger")
-    to_friends = {}
+    to_friends = []
     for val in suggestions:
-        user = db.session.query(User).filter(User.user_id == val).values('user_id', 'first_name', 'last_name')
-
+        user = db.session.query(User).filter(User.user_id == val).first()
+        print('Got user - ', user.first_name)
+        to_friends.append(user)
 
     return render_template("suggestions.html", users=to_friends)
 
@@ -344,7 +351,7 @@ if __name__ == "__main__":
     db.create_all()
 
     # Use the DebugToolbar
-    # DebugToolbarExtension(app)
+    DebugToolbarExtension(app)
 
     PORT = int(os.environ.get("PORT", 5000))
     DEBUG = "NO_DEBUG" not in os.environ
