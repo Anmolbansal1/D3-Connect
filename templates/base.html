@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="/static/img/restaurant-marker.png" type="image/gif" sizes="16x16">
+  <link rel="icon" href="/static/img/logo.jpeg" type="image/gif" sizes="16x16">
   <title>d3Connect || {% block title %} put title here {% endblock %}</title>
 
   <!-- Bootstrap -->
@@ -44,9 +44,9 @@
           <span class="icon-bar"></span>
         </button>
         {% if session.get('current_user') %}
-          <a href="/users/{{ session.current_user.user_id }}"><button id="brand-logo"><img src="/static/img/restaurant-marker.png"> d3Connect</button></a>
+          <a href="/users/{{ session.current_user.user_id }}"><button id="brand-logo"><img src="/static/img/logo.jpeg" width="25" height="25"> d3Connect</button></a>
         {% else %}
-          <a href="/"><button id="brand-logo"><img src="/static/img/restaurant-marker.png"> d3Connect</button></a>
+          <a href="/"><button id="brand-logo"><img src="/static/img/logo.jpeg" width="25" height="25"> d3Connect</button></a>
         {% endif %}
       </div><!-- /.navbar-header -->
 
@@ -110,7 +110,7 @@
       <p class="footer-copyright">d3Connect</p>
       <!-- <p>Made with <span id="heart">&hearts;</span></p> -->
       <p class="footer-text">
-        <a href="https://github.com/#">
+        <a href="https://github.com/Anmolbansal1/Decode">
           <span class="fa fa-github fa-lg" aria-hidden="true"></span>
           Github
         </a>
@@ -124,7 +124,7 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-  {% block javascript %} put any scripts here {% endblock %}
+  {% block javascript %} {% endblock %}
 
 </body>
 </html>
