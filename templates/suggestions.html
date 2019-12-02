@@ -24,8 +24,11 @@
         <br>
     {% endfor %}
   </ul>
+  <br>
+  <br>
+  <center><a href="http://localhost:5001/{{session.current_user.first_name}}"><h2>Invite to Group</h2></a></center>
 
 {% endblock %}
 {% block javascript %}
-  <script src="/static/js/add-suggestion.js"></script>
+  <script src="/static/js/add-suggestion.js/"></script>
 {% endblock %}
