@@ -1,5 +1,5 @@
 def age_sim(user_age, rec_age):
-	sim = abs(40-abs(user_age-rec_age))/40
+	sim = abs(40.0-abs(user_age-rec_age))/(40.0)
 	return sim**3
 
 def occ_sim(user_occ, rec_occ):
@@ -19,7 +19,7 @@ def interest_sim(user_int, rec_int):
 				cnt += 1
 	if len(rec_int) > m:
 		m = len(rec_int)
-	return (cnt/m)
+	return (cnt/float(m))
 
 
 def location_sim(geolocator, user_loc, rec_loc):
@@ -34,4 +34,4 @@ def location_sim(geolocator, user_loc, rec_loc):
 	lat2 = loc2.latitude
 	lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
 	dist = 6371 * (acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon1 - lon2)))
-	return (1-dist/19994)**10
+	return (1-dist/19994.0)**10

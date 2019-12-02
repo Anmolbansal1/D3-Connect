@@ -311,7 +311,7 @@ def suggest():
     print('Similaritites - ')
     print(similarities)
 
-    sim = 0
+    sim = 0.0
     for user_test in all_users:
         if age is not None:
             sim = age_sim(user_test.age, user.age)
@@ -330,7 +330,8 @@ def suggest():
             similarities[user_test.user_id] += sim
     
     # similarities filled
-    similarities = sorted(similarities.items(), key = lambda kv:(kv[0], kv[1]))
+    similarities = sorted(similarities.items(), key = lambda kv:(kv[1], kv[0]))
+    similarities.reverse()
 
     print(similarities)
     # summer sorted
