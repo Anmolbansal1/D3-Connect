@@ -30,7 +30,7 @@ Tests for this software are yet to be developed.
 
 ## Deployment
 
-This project can 
+This project can be deployed on heroku with Procfile.
 
 ## Contributing
 
