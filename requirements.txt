@@ -9,7 +9,7 @@ Flask-DebugToolbar==0.10.0
 Flask-SQLAlchemy==2.1
 httplib2==0.9.2
 itsdangerous==0.24
-Jinja2==2.8
+Jinja2==2.11.3
 MarkupSafe==0.23
 oauth2==1.9.0.post1
 psycopg2==2.7.1 --no-binary psycopg2
